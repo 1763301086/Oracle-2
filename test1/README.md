@@ -25,5 +25,5 @@ HAVING d.department_name in ('IT'，'Sales');
 SELECT  d.department_name as "部门",e.FIRST_NAME as 姓名 ,e.SALARY as 工资
 FROM hr.departments d,hr.employees e
 WHERE d.department_id = e.department_idz
-and e.SALARY>5000
+and e.SALARY>6000
 ```
