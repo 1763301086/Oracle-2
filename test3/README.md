@@ -103,12 +103,16 @@ from order_details;
 ```sql
 //查询PARTITION_BEFORE_2017分区中两张表的数据（部分列）
 SELECT
-    orders.order_id,
-    orders.order_date,
-    order_details.order_id,
-    TRADE_RECEIVABLE,
-    PRODUCT_ID,
-    PRODUCT_PRICE
+    *
 FROM orders partition (PARTITION_BEFORE_2017) LEFT JOIN order_details partition (PARTITION_BEFORE_2017)
 ON (orders.order_id = order_details.order_id);
 ```
+![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_4.png )
+
+##对比实验分析
+```sql
+select * from order_details ode join orders ods
+	on ode.order_id=ods.order_id;
+
+```
+![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_3.png )
