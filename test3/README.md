@@ -75,4 +75,40 @@ PARTITION BY REFERENCE (order_details_fk1);
 ```
 
 
-##往数据库插入大量数据
+##表创建成功后，插入数据，数据能并平均分布到各个分区。每个表的数据都应该大于1万行，对表进行联合查询。
+```sql
+单挑插入：
+INSERT INTO orders(customer_name, customer_tel, order_date, employee_id, trade_receivable, discount) VALUES('yt', '1', to_date ( '2015-12-20 18:31:34' , 'YYYY-MM-DD HH24:MI:SS' ), 1, 2, 3);
+INSERT INTO orders(customer_name, customer_tel, order_date, employee_id, trade_receivable, discount) VALUES('ty', '2', to_date ( '2016-12-20 18:31:34' , 'YYYY-MM-DD HH24:MI:SS' ), 1, 2, 3);
+INSERT INTO orders(customer_name, customer_tel, order_date, employee_id, trade_receivable, discount) VALUES('yy', '3', to_date ( '2017-12-20 18:31:34' , 'YYYY-MM-DD HH24:MI:SS' ), 1, 2, 3);
+多条插入：
+insert into orders
+select *
+from orders;
+```
+![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_1.png )
+
+```sql
+//从表中插入单条数据的sql语句
+insert into order_details(id, PRODUCT_ID, PRODUCT_NUM, PRODUCT_PRICE) VALUES(1, 2, 3, 4);
+insert into order_details(id, PRODUCT_ID, PRODUCT_NUM, PRODUCT_PRICE) VALUES(2, 2, 3, 4);
+insert into order_details(id, PRODUCT_ID, PRODUCT_NUM, PRODUCT_PRICE) VALUES(3, 2, 3, 4);
+//从表中重复插入，达到万条数据，，说明：创建了序列 SEQ_ID， 触发器tr_DETAILS_IDADD（当插入从表单条数据时候自动插入order_id值【唯一值】）
+insert into order_details
+select *
+from order_details;
+```
+![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_2.png )
+
+```sql
+//查询PARTITION_BEFORE_2017分区中两张表的数据（部分列）
+SELECT
+    orders.order_id,
+    orders.order_date,
+    order_details.order_id,
+    TRADE_RECEIVABLE,
+    PRODUCT_ID,
+    PRODUCT_PRICE
+FROM orders partition (PARTITION_BEFORE_2017) LEFT JOIN order_details partition (PARTITION_BEFORE_2017)
+ON (orders.order_id = order_details.order_id);
+```
