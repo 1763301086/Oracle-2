@@ -86,7 +86,8 @@ insert into orders
 select *
 from orders;
 ```
-![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_1.png )
+
+![](https://github.com/YangTingGet/Oracle/blob/master/test3/%E5%AE%9E%E9%AA%8C3_1.png )
 
 ```sql
 //从表中插入单条数据的sql语句
@@ -98,7 +99,7 @@ insert into order_details
 select *
 from order_details;
 ```
-![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_2.png )
+![](https://github.com/YangTingGet/Oracle/blob/master/test3/%E5%AE%9E%E9%AA%8C3_2.png )
 
 ```sql
 //查询PARTITION_BEFORE_2017分区中两张表的数据（部分列）
@@ -107,7 +108,7 @@ SELECT
 FROM orders partition (PARTITION_BEFORE_2017) LEFT JOIN order_details partition (PARTITION_BEFORE_2017)
 ON (orders.order_id = order_details.order_id);
 ```
-![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_4.png )
+![](https://github.com/YangTingGet/Oracle/blob/master/test3/%E5%AE%9E%E9%AA%8C3_4.png )
 
 ##对比实验分析
 ```sql
@@ -115,4 +116,4 @@ select * from order_details ode join orders ods
 	on ode.order_id=ods.order_id;
 
 ```
-![运行结果](https://github.com/YangTingGet/Oracle/edit/master/test3/实验3_3.png )
+![](https://github.com/YangTingGet/Oracle/blob/master/test3/%E5%AE%9E%E9%AA%8C3_3.png )
